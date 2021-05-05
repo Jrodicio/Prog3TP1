@@ -60,12 +60,11 @@ class Usuario
     public static function verificarCredenciales($usuario, $clave)
     {
         $usuarioObtenido = Usuario::obtenerUsuario($usuario);
-        $claveHash = password_hash($clave, PASSWORD_DEFAULT);
-        
+
         if(isset($usuarioObtenido) && !is_null($usuarioObtenido))
         {
-            return $usuarioObtenido->clave == $claveHash;
+            return password_verify($clave, $usuarioObtenido->clave);
         }
-        return false;        
+        return false;
     }
 }
