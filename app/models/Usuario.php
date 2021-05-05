@@ -77,7 +77,7 @@ class Usuario
     {
         $usuarioObtenido = Usuario::obtenerUsuario($usuario);
 
-        if(isset($usuarioObtenido))
+        if(isset($usuarioObtenido->id))
         {
             if(!isset($usuarioObtenido->fechaBaja))
             {
