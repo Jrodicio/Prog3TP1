@@ -87,14 +87,28 @@ class UsuarioController extends Usuario implements IApiUsable
         if(isset($parametros['usuarioId']))
         {
           $usuarioId = $parametros['usuarioId'];
-          Usuario::borrarUsuario($usuarioId);
-  
-          $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));
+          $borrados = Usuario::borrarUsuario($usuarioId);
+          
+          if($borrados == 1)
+          {
+            $mensaje = "Usuario borrado con exito";
+          }
+          else if ($borrados == 0)
+          {
+            $mensaje = "No se encontró usuario que borrar";
+          }
+          else
+          {
+            $mensaje = "Se borro mas de un usuario, CORRE";
+          }
+          
         }
         else
         {
-          $payload = json_encode(array("mensaje" => "Faltan datos"));
+          $mensaje = "Faltan datos";
         }
+
+        $payload = json_encode(array("mensaje" => $mensaje));
         
         $response->getBody()->write($payload);
         return $response
