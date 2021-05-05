@@ -9,12 +9,15 @@ class UsuarioController extends Usuario implements IApiUsable
         $parametros = $request->getParsedBody();
 
         $usuario = $parametros['usuario'];
+        $nombre = $parametros['nombre'];
         $clave = $parametros['clave'];
 
         // Creamos el usuario
         $usr = new Usuario();
         $usr->usuario = $usuario;
         $usr->clave = $clave;
+        $usr->nombre = $nombre;
+
         $ultimoId = $usr->crearUsuario();
 
         $payload = json_encode(array("mensaje" => "Usuario $ultimoId creado con exito"));
@@ -71,10 +74,34 @@ class UsuarioController extends Usuario implements IApiUsable
     {
         $parametros = $request->getParsedBody();
 
-        $nombre = $parametros['nombre'];
-        Usuario::modificarUsuario($nombre);
+        if(isset($parametros['id'],$parametros['usuario'],$parametros['nombre'],$parametros['clave']))
+        {
+          $id = $parametros['id'];
+          $usuario = $parametros['usuario'];
+          $nombre = $parametros['nombre'];
+          $clave = $parametros['clave'];
+  
+          $usr = new Usuario();
+          $usr->id = $id;
+          $usr->usuario = $usuario;
+          $usr->clave = $clave;
+          $usr->nombre = $nombre;
 
-        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+          if ($usr->modificarUsuario()) 
+          {
+            $mensaje = "Se actualizó el usuario";
+          }
+          else
+          {
+            $mensaje = "No se pudo actualizar el usuario";
+          }
+        }
+        else
+        {
+          $mensaje = "Faltan datos [id-usuario-nombre-clave]";
+        }
+
+        $payload = json_encode(array("mensaje" => $mensaje));
 
         $response->getBody()->write($payload);
         return $response
@@ -115,3 +142,4 @@ class UsuarioController extends Usuario implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
 }
+?>

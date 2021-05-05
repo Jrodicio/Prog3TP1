@@ -30,6 +30,7 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
     $group->post('/login', \UsuarioController::class . ':Loguear');
     $group->post('/delete', \UsuarioController::class . ':BorrarUno');
+    $group->post('/modificar', \UsuarioController::class . ':ModificarUno');
   });
 
   
@@ -42,3 +43,4 @@ $app->get('[/]', function (Request $request, Response $response) {
 });
 
 $app->run();
+?>
