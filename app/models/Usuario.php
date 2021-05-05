@@ -70,9 +70,12 @@ class Usuario
     {
         $usuarioObtenido = Usuario::obtenerUsuario($usuario);
 
-        if(isset($usuarioObtenido) && !is_null($usuarioObtenido))
+        if(isset($usuarioObtenido))
         {
-            return password_verify($clave, $usuarioObtenido->clave);
+            if(!isset($usuarioObtenido->fechaBaja))
+            {
+                return password_verify($clave, $usuarioObtenido->clave);
+            }
         }
         return false;
     }
