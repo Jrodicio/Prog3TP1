@@ -27,9 +27,11 @@ $app->addErrorMiddleware(true, true, true);
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
-    $group->post('/login', \UsuarioController::class . ':Loguear');
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
   });
+
+  $app->post('/login', \UsuarioController::class . ':Loguear');
+
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $response->getBody()->write("Slim Framework 4 PHP");
