@@ -13,9 +13,8 @@ class Usuario
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $usuarioExistente = Usuario::obtenerUsuario($this->usuario);
 
-        if(isset($usuarioExistente))
+        if(!$usuarioExistente)
         {
-            var_dump($usuarioExistente);
             return false;
         }
 
