@@ -13,7 +13,7 @@ class Usuario
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $usuarioExistente = Usuario::obtenerUsuario($this->usuario);
 
-        if(!$usuarioExistente)
+        if(isset($usuarioExistente->id))
         {
             return false;
         }
