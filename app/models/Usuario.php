@@ -11,21 +11,22 @@ class Usuario
     public function crearUsuario()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta(" INSERT INTO usuarios (usuario, clave, nombre) SELECT :usuario, :clave, :nombre WHERE NOT EXISTS (SELECT * FROM usuarios WHERE usuario = :usuario LIMIT 1)");
+        $usuaroExistente = Usuario::obtenerUsuario($this->usuario);
+
+        if(isset($usuaroExistente))
+        {
+            return false;
+        }
+
+        $consulta = $objAccesoDatos->prepararConsulta(" INSERT INTO usuarios (usuario, clave, nombre) SELECT :usuario, :clave, :nombre");
         $claveHash = password_hash($this->clave, PASSWORD_DEFAULT);
 
         $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $claveHash);
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->execute();
-        if ($consulta->rowCount())
-        {
-            return $objAccesoDatos->obtenerUltimoId();
-        }
-        else
-        {
-            return false;
-        }       
+        return $objAccesoDatos->obtenerUltimoId();
+     
     }
 
     public static function obtenerTodos()
