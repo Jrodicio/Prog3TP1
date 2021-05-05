@@ -28,6 +28,7 @@ class UsuarioController extends Usuario implements IApiUsable
     {
         // Buscamos usuario por nombre
         $usr = $args['usuario'];
+        echo $usr;
         $usuario = Usuario::obtenerUsuario($usr);
         $payload = json_encode($usuario);
 

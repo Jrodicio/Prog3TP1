@@ -37,7 +37,7 @@ class Usuario
         return $consulta->fetchObject('Usuario');
     }
 
-    public static function modificarUsuario()
+    public function modificarUsuario()
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave WHERE id = :id");
@@ -55,5 +55,17 @@ class Usuario
         $consulta->bindValue(':id', $usuario, PDO::PARAM_INT);
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
         $consulta->execute();
+    }
+
+    public static function verificarCredenciales($usuario, $clave)
+    {
+        $usuarioObtenido = Usuario::obtenerUsuario($usuario);
+        $claveHash = password_hash($clave, PASSWORD_DEFAULT);
+
+        if(isset($usuarioObtenido) && !is_null($usuarioObtenido))
+        {
+            return $usuarioObtenido->clave == $claveHash;
+        }
+        return false;        
     }
 }
