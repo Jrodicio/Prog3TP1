@@ -22,15 +22,8 @@ class Usuario
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, clave FROM usuarios");
-        if($consulta->execute())
-        {
-            echo "TODO OK";
-        }
-        else
-        {
-            echo "ALGO RARO";
-        }
-        
+        $consulta->execute();
+
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
     }
 
@@ -68,7 +61,6 @@ class Usuario
     {
         $usuarioObtenido = Usuario::obtenerUsuario($usuario);
         $claveHash = password_hash($clave, PASSWORD_DEFAULT);
-
         
         if(isset($usuarioObtenido) && !is_null($usuarioObtenido))
         {
