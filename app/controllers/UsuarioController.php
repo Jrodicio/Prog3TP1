@@ -24,6 +24,26 @@ class UsuarioController extends Usuario implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
 
+    public function Loguear($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+
+        $usuario = $parametros['usuario'];
+        $clave = $parametros['clave'];
+
+        if(Usuario::verificarCredenciales($usuario, $clave))
+        {
+          $payload = json_encode(array("mensaje" => "Usuario logueado con exito."));
+        }
+        else
+        {
+          $payload = json_encode(array("mensaje" => "Usuario o clave incorrecto."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
     public function TraerUno($request, $response, $args)
     {
         // Buscamos usuario por nombre
