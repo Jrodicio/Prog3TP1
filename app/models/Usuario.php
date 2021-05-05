@@ -11,10 +11,11 @@ class Usuario
     public function crearUsuario()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $usuaroExistente = Usuario::obtenerUsuario($this->usuario);
+        $usuarioExistente = Usuario::obtenerUsuario($this->usuario);
 
-        if(isset($usuaroExistente))
+        if(isset($usuarioExistente))
         {
+            var_dump($usuarioExistente);
             return false;
         }
 
